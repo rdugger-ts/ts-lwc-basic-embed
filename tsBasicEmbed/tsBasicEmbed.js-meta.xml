@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>ThoughtSpot Basic Embed</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property label="What to embed?" name="embedType" type="String" datasource="Search, Search Bar, Liveboard, App, Sage" default="Liveboard"/>
+
+                <property
+                    name="tsURL"
+                    type="String"
+                    label="ThoughtSpot URL"
+                    required="true"
+                    description="The full URL to your ThoughtSpot host"
+                    default=""
+                />    
+                <property
+                    name="vizID"
+                    type="String"
+                    label="Liveboard GUID"
+                    required="true"
+                    description="ThoughtSpot Content GUID"
+                    default=""
+                />
+                <property
+                    name="filterOnRecordId"
+                    type="Boolean"
+                    default="false"
+                    label="Filter the Liveboard based on the current Salesforce record"
+                />
+                <property
+                    name="tsAdvancedFilter"
+                    type="String"
+                    label="Add more filters, define the ThoughtSpot Field Name"
+                />
+                <property
+                    name="sfAdvancedFilter"
+                    type="String"
+                    datasource="apex://ObjectFieldPickList"
+                    label="Add more filters, select a Salesforce object field"
+                />
+                
+                <supportedFormFactors>
+                    <supportedFormFactor type="Small" />
+                    <supportedFormFactor type="Large" />
+                </supportedFormFactors>
+            </targetConfig>
+            
+            <targetConfig targets="lightning__AppPage,lightning__HomePage,lightningCommunity__Default">
+                <property label="What to embed?" name="embedType" type="String" datasource="Search, Search Bar, Liveboard, App, Sage" default="Liveboard"/>
+
+                <property
+                    name="tsURL"
+                    type="String"
+                    label="ThoughtSpot URL"
+                    required="true"
+                    description="The full URL to your ThoughtSpot host"
+                    default=""
+                />   
+                <property
+                    name="vizID"
+                    type="String"
+                    label="Enter Liveboard ID"
+                    required="false"
+                    description="ThoughtSpot Content GUID"
+                    default=""
+                />
+                <property
+                    name="hideLiveboardHeader"
+                    type="Boolean"
+                    default="false"
+                    label="Hide Header?"
+                />
+                <property
+                    name="showLiveboardTitle"
+                    type="Boolean"
+                    default="false"
+                    label="Show Liveboard Title?"
+                />
+                <property
+                    name="fullHeight"
+                    type="Boolean"
+                    default="false"
+                    label="Full Height Liveboard?"
+                />
+                
+            </targetConfig>
+        </targetConfigs>
+    </LightningComponentBundle>
+    
