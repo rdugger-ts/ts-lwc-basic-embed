@@ -5,6 +5,7 @@ Template LWC code for embedding ThoughtSpot Liveboard or Sage search in Salesfor
 ## Assumptions
 
 - You have a Salesforce Sandbox or Developer Edition configured
+- You are familiar with development in Salesforce
 - If testing this LWC in Experience Cloud, ensure you have configured "My Domain" and have enabled digital experiences in Salesforce.
 - You have access to the Developer tab in ThoughtSpot and access to update CORS settings
 
