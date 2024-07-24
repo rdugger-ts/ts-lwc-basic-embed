@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>58.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <isExposed>true</isExposed>
-    <masterLabel>ThoughtSpot Basic Embed</masterLabel>
+    <masterLabel>ThoughtSpot Embed No Auth</masterLabel>
     <targets>
         <target>lightning__AppPage</target>
         <target>lightning__RecordPage</target>
@@ -18,34 +18,17 @@
                     name="tsURL"
                     type="String"
                     label="ThoughtSpot URL"
-                    required="true"
+                    required="false"
                     description="The full URL to your ThoughtSpot host"
                     default=""
                 />    
                 <property
                     name="vizID"
                     type="String"
-                    label="Liveboard GUID"
-                    required="true"
+                    label="Liveboard or Datasource GUID"
+                    required="false"
                     description="ThoughtSpot Content GUID"
                     default=""
-                />
-                <property
-                    name="filterOnRecordId"
-                    type="Boolean"
-                    default="false"
-                    label="Filter the Liveboard based on the current Salesforce record"
-                />
-                <property
-                    name="tsAdvancedFilter"
-                    type="String"
-                    label="Add more filters, define the ThoughtSpot Field Name"
-                />
-                <property
-                    name="sfAdvancedFilter"
-                    type="String"
-                    datasource="apex://ObjectFieldPickList"
-                    label="Add more filters, select a Salesforce object field"
                 />
                 
                 <supportedFormFactors>
@@ -68,7 +51,7 @@
                 <property
                     name="vizID"
                     type="String"
-                    label="Enter Liveboard ID"
+                    label="Liveboard or Datasource GUID"
                     required="false"
                     description="ThoughtSpot Content GUID"
                     default=""
@@ -77,7 +60,7 @@
                     name="hideLiveboardHeader"
                     type="Boolean"
                     default="false"
-                    label="Hide Header?"
+                    label="Hide Liveboard Header?"
                 />
                 <property
                     name="showLiveboardTitle"
