@@ -40,20 +40,13 @@ export default class TsEmbedNoAuth extends LightningElement {
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //Config Vars - Update these to suit your needs
     ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //myTestHost   = 'https://your.thoughtspot.cloud';
-    myTestHost = 'https://embed-1-do-not-delete.thoughtspotstaging.cloud';
-    //myTestOrg    = '0';  //set to '0' if not using orgs in TS, otherwise, update as needed.
-    myTestOrg  = '33363357';
-    //myTestViz    = '<your liveboard guid>';
-    myTestViz    = '5a7ca2ff-84fc-4d26-936f-afa373c0df3b';
-    //myTestViz    = '7ffababd-a9ce-4acf-9b60-331f2ef7bf90';
+    myTestHost   = 'https://your.thoughtspot.cloud';
+    myTestOrg    = '0';  //set to '0' if not using orgs in TS, otherwise, update as needed.
+    myTestViz    = '<your liveboard guid>';
     myTestSageDS = '<your sage data source guid>';
-    //myTestAPI    = 'https://your.thoughtspot.cloud/api/rest/2.0/auth/token/full';
-    myTestAPI    = 'https://embed-1-do-not-delete.thoughtspotstaging.cloud/api/rest/2.0/auth/token/full';
-    //myTestUser   = 'username@email.com';
-    myTestUser   = 'ronald.dugger@thoughtspot.com';
-    //myTestPW   = 'yourpassword';
-    myTestPW   = 'ThreeRooker@2024';
+    myTestAPI    = 'https://your.thoughtspot.cloud/api/rest/2.0/auth/token/full';
+    myTestUser   = 'username@email.com';
+    myTestPW   = 'yourpassword';
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     userEmail;
