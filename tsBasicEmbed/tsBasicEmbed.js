@@ -6,6 +6,9 @@
 //   : Update CORS and CSP settings in Salesforce - your thoughtspot cluster url
 //   : Upload the ThoughtSpot SDK into SF as Static Resource
 //   : Update the configuration parameters in the LWC - ThoughtSpot URL & liveboard GUID
+// 
+// Notes:
+//   : Basic Auth used in this LWC, no SSO.
 //
 ///////////////////////////////////////
 import { LightningElement, api, track, wire } from 'lwc';
@@ -15,15 +18,13 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import thoughtSpotSDK from '@salesforce/resourceUrl/thoughtSpotSDKv1280alpha5';
 import { loadScript } from 'lightning/platformResourceLoader';
 
-export default class TsLiveboardEmbed extends LightningElement {
+export default class TsEmbedNoAuth extends LightningElement {
     
     /** Object API name - automatically passed when in a record page */
     @api objectApiName;
     /** Object record ID - automatically passed when in a record page */
     @api recordId;
     
-    advancedFilterValue;
-
     @api embedType;
     @api vizID;
     @api tsURL;
@@ -34,7 +35,7 @@ export default class TsLiveboardEmbed extends LightningElement {
     @track fieldsInfo=[];
     
     viz_height = 0;
-    viz_width = 0;
+    viz_width  = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //Config Vars - Update these to suit your needs
@@ -46,7 +47,7 @@ export default class TsLiveboardEmbed extends LightningElement {
     myTestAPI    = 'https://your.thoughtspot.cloud/api/rest/2.0/auth/token/full';
     myTestUser   = 'username@email.com';
     myTestPW     = 'yourpassword';
-   ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     userEmail;
     userName;
@@ -55,67 +56,14 @@ export default class TsLiveboardEmbed extends LightningElement {
     embedObj;
     embedInit;
 
-    @wire(getRecord, {
-        recordId: '$recordId',
-        fields: '$sfAdvancedFilter'
-    })
-    getRecord({ error, data }) {
-        if (data) {
-            console.log("RECORD DATA: ", JSON.stringify(data));
-            this.advancedFilterValue = getFieldValue(
-                data,
-                this.sfAdvancedFilter
-            );
-            if (this.advancedFilterValue === undefined) {
-                //console.log("getRecord: record found");
-            } else {
-                //console.log("getRecord: no record found");
-            }
-        } else if (error) {
-            //console.log("Failed to retrieve record data: ", error);
-            }
-        }
-
-        @api
-        get filterOnRecordId() {
-            return this._filterOnRecordId;
-        }
-        set filterOnRecordId(val) {
-            this._filterOnRecordId = val;
-            console.log("FILTER on RECORD: ",  this._filterOnRecordId);
-        }
-
-        @api
-        get tsAdvancedFilter() {
-            return this._tsAdvancedFilter;
-        }
-        set tsAdvancedFilter(val) {
-            this._tsAdvancedFilter = val;
-            console.log("tsAdvancedFilter: ", this._tsAdvancedFilter);    
-        }
-    
-        @api
-        get sfAdvancedFilter() {
-            return this._sfAdvancedFilter;
-        }
-        set sfAdvancedFilter(val) {
-            this._sfAdvancedFilter = val;
-            console.log("sfAdvancedFilter: ", this._sfAdvancedFilter);
-        }
-
     async connectedCallback() {
 
         getUserInfoByEmail()
             .then(data => {
-                let filterID = data.Division;
                 let userEmail = data.Email;
                 let userName = data.Username;
                 this.userName2 = data.Username;
 
-                localStorage.removeItem('vfilterID');
-                
-                window.localStorage.setItem("vfilterID", filterID);
-                console.log("*** SET FILTER VALUE: ", filterID);
                 console.log("*** Logged in user Email: ", userEmail);
                 console.log("*** Logged in user Username: ", userName);
                 console.log("*** TS URL: ", this.tsURL);
@@ -152,10 +100,9 @@ export default class TsLiveboardEmbed extends LightningElement {
         }
 
         try {
-            const thoughtSpotHost = this.tsURL;
-
             this.embedInit = tsembed.init({
                 thoughtSpotHost: this.myTestHost,
+                //thoughtSpotHost: this.tsURL,  //Uncomment if you want to pass url from LWC meta xml
 
                 // https://developers.thoughtspot.com/docs/embed-auth
                 //authType: tsembed.AuthType.TrustedAuthTokenCookieless,
@@ -170,7 +117,7 @@ export default class TsLiveboardEmbed extends LightningElement {
                     style: {
                       customCSSUrl: "https://cdn.jsdelivr.net/gh/thoughtspot/custom-css-demo/css-variables.css", // location of your style sheet
                 
-                      // To apply overrides for your style sheet in this init, provide variable values below, eg
+                      // To apply overrides for your style sheet in this init, provide variable values below
                       customCSS: {
                         variables: {
                           "--ts-var-button--secondary-background": "#c9c9c9",
@@ -219,11 +166,11 @@ export default class TsLiveboardEmbed extends LightningElement {
                     //liveboardId: this.vizID,  //Uncomment if you want to pass GUID from LWC meta xml
                     liveboardId: this.myTestViz,
                     
-                    // runtimeFilters: [{
-                    //     columnName: 'Accountid',
-                    //     operator: RuntimeFilterOp.EQ,
-                    //     values: ['0016A000007Nj94QAC']
-                    // }],
+                    runtimeFilters: [{
+                        "columnName": "Accountid",
+                        "operator": "EQ",
+                        "values": [this.recordId],
+                    }],
                 });
             } else if(this.embedType === "Sage") {
 
